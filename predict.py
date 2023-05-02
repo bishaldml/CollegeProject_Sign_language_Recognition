@@ -1,8 +1,7 @@
-import numpy as np
 from keras.models import model_from_json
 import operator
 import cv2
-#import sys, os
+
 
 # Loading the model
 json_file = open("model1.json", "r")
@@ -17,53 +16,56 @@ cap = cv2.VideoCapture(0)
 
 while True:
     _, frame = cap.read()
-    # Simulating mirror image
+    # Flip the image horizontally for a selfie-view display.
     frame = cv2.flip(frame, 1)
-    
-    # Coordinates of the ROI
-    x1 = int(0.5*frame.shape[1])
-    y1 = 10
-    x2 = frame.shape[1]-10
-    y2 = int(0.5*frame.shape[1])
-    # Drawing the ROI
-    # The increment/decrement by 1 is to compensate for the bounding box
-    cv2.rectangle(frame, (x1-1, y1-1), (x2+1, y2+1), (255,0,0) ,1)
+
+    # Coordinates of the ROI on frame
+    x1 = 400
+    y1 = 100
+    x2 = 620
+    y2 = 320
+    # Drawing the ROI on frame. The increment/decrement by 1 is to compensate for the bounding box
+    cv2.rectangle(frame, (x1, y1), (x2, y2), (255,0,0) ,2)
+
+
     # Extracting the ROI
     roi = frame[y1:y2, x1:x2]
-    
-    # Resizing the ROI so it can be fed to the model for prediction
     roi = cv2.resize(roi, (128, 128)) 
+    
+    
+    ## Convert to grayscale
     roi = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    _, roi = cv2.threshold(roi, 120, 255, cv2.THRESH_BINARY)
-    cv2.imshow("test", roi)
+
+    roi = cv2.GaussianBlur(roi,(7,7),0)
+    
+    #roi = cv2.adaptiveThreshold(roi,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,11,3)
+    _,roi = cv2.threshold(roi, 10, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+
+
+    # Converting the image to 3 channels
+    roi = cv2.cvtColor(roi, cv2.COLOR_GRAY2RGB)
+
    
-    result = loaded_model.predict(roi.reshape(1, 128, 128, 1))
-    prediction = {'A': result[0][0], 
-                  'B': result[0][1], 
-                  'C': result[0][2],
-                  'D': result[0][3],
-                  'E': result[0][4],
-                  'F': result[0][5],
-                  'G': result[0][6],
-                  'H': result[0][7],
-                  'I': result[0][8],
-                  'J': result[0][9],
-                  'K': result[0][10],
-                  'L': result[0][11],
-                  'M': result[0][12],
-                  'N': result[0][13],
-                  'O': result[0][14],
-                  'P': result[0][15],
-                  'Q': result[0][16],
-                  'R': result[0][17],
-                  'S': result[0][18],
-                  'T': result[0][19],
-                  'U': result[0][20],
-                  'V': result[0][21],
-                  'W': result[0][22],
-                  'X': result[0][23],
-                  'Y': result[0][24],
-                  'Z': result[0][25]
+    cv2.imshow("Prediction", roi)
+   
+    result = loaded_model.predict(roi.reshape(1,128,128,3))
+    prediction = {'Zero': result[0][0], 
+                  'One': result[0][1], 
+                  'Two': result[0][2],
+                  'Three': result[0][3],
+                  'Four': result[0][4],
+                  'Five': result[0][5],
+                  'A': result[0][6], 
+                  'B': result[0][7], 
+                  'C': result[0][8],
+                  'D': result[0][9],
+                  'E': result[0][10],
+                  'F': result[0][11],
+                  'G': result[0][12],
+                  'H': result[0][13],
+                  'I': result[0][14],
+                  'J': result[0][15],
+                  'Null': result[0][16]
                   }
     # Sorting based on top prediction
     prediction = sorted(prediction.items(), key=operator.itemgetter(1), reverse=True)
