@@ -46,7 +46,7 @@ if not os.path.exists("data"):
     os.makedirs("data/test/N")
 
 
-mode = 'train'
+mode = 'test'
 directory = 'data/'+mode+'/'
 
 cap = cv2.VideoCapture(0)

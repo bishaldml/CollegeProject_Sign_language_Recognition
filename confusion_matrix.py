@@ -8,17 +8,17 @@ import matplotlib.pyplot as plt
 # Load the saved model
 from keras.models import model_from_json
 
-json_file = open('model2.json', 'r')
+json_file = open('model5.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 loaded_model = model_from_json(loaded_model_json)
 
 # Load the saved weights
-loaded_model.load_weights("model2.h5")
+loaded_model.load_weights("model5.h5")
 
 # Load the test data
 test_datagen = ImageDataGenerator(rescale=1./255)
-test_set = test_datagen.flow_from_directory('data/test',
+test_set = test_datagen.flow_from_directory('data/test1',
                                             target_size=(128, 128),
                                             class_mode='categorical',
                                             shuffle=False) 
