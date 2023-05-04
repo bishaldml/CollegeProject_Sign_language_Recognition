@@ -26,9 +26,6 @@ classifier.add(Flatten())
 
 classifier.add(Dense(units = 256 , activation = 'relu'))
 classifier.add(Dropout(0.5))
-# classifier.add(Dense(units = 96 , activation = 'relu'))
-# classifier.add(Dropout(0.5))
-# classifier.add(Dense(units = 32 , activation = 'relu'))
 classifier.add(Dense(units = 17 , activation = 'softmax')) 
 
 classifier.summary()
@@ -38,8 +35,6 @@ classifier.summary()
 classifier.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy']) 
 # Define early stopping
 early_stopping = EarlyStopping(monitor='val_loss', patience=3)
-
-#Adam(learning_rate=0.001)
 
 # Step 2 - Preparing the train/test data and training the model
 
@@ -77,24 +72,12 @@ history = classifier.fit(
       validation_steps=test_set.samples/test_set.batch_size,
       shuffle=True,
       callbacks=[early_stopping])
-# history = classifier.fit(
-#       training_set,
-#       #steps_per_epoch=len(training_set)/training_set.batch_size,
-#       steps_per_epoch=training_set.samples/training_set.batch_size,
-#       epochs=15,
-#       validation_data=test_set,
-#       validation_split=0.2,
-#       #validation_steps=len(test_set)/test_set.batch_size,
-#       callbacks=[early_stopping])
-
 
 # Saving the model
 model_json = classifier.to_json()
 with open("model5.json", "w") as json_file:
     json_file.write(model_json) #model saved
 classifier.save_weights('model5.h5')     #Weights saved
-
-
 
 # Graph:
 import matplotlib.pyplot as plt

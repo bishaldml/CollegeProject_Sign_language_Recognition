@@ -14,7 +14,7 @@ confusion_matrix = Image.open('confusion_matrix.png')
 
 # 1. as sidebar menu
 with st.sidebar:
-    selected2 = option_menu("Main Menu", ["Home", "recognize/start", 'accuracy graph', 'loss graph', 'confusion matrix'],
+    selected2 = option_menu("Main Menu", ["Home", "Start/Recognize", 'Accuracy graph', 'Loss graph', 'Aonfusion matrix'],
                             icons=['house', "camera", 'diagram-3', 'diagram-3', 'gear'], menu_icon="cast", default_index=0,
                             styles={
         "container": {"padding": "0!important", "background-color": "#fafafa"},
@@ -26,7 +26,7 @@ with st.sidebar:
 
 if selected2 == "Home":
     st.title("Welcome to sign language recognition system")
-if selected2 == "recognize/start":
+if selected2 == "Start/Recognize":
     st.title("Sign language recognition")
 
     # Load the model from disk
@@ -35,7 +35,7 @@ if selected2 == "recognize/start":
     json_file.close()
     loaded_model = model_from_json(model_json)
     loaded_model.load_weights("model5.h5")
-    st.write("Place your hand inside the rectangle")
+    st.write("Place your hand inside the blue rectangle box.")
 
     # Start the webcam and set the region of interest
     cap = cv2.VideoCapture(0)
@@ -102,12 +102,12 @@ if selected2 == "recognize/start":
     cv2.destroyAllWindows()
 
 
-if selected2 == "accuracy graph":
+if selected2 == "Accuracy graph":
     st.image(accuracy, caption='Accuracy graph image')
 
-if selected2 == "loss graph":
+if selected2 == "Loss graph":
     st.image(loss, caption='Loss graph image')
 
-if selected2 == "confusion matrix":
+if selected2 == "Confusion matrix":
     st.image(confusion_matrix, caption='Confusion matrix image')
 

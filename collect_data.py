@@ -22,9 +22,6 @@ if not os.path.exists("data"):
     os.makedirs("data/train/I")
     os.makedirs("data/train/J")
     os.makedirs("data/train/N")
-
-   
-   
     # test folder
     os.makedirs("data/test")
     os.makedirs("data/test/0")
@@ -44,7 +41,6 @@ if not os.path.exists("data"):
     os.makedirs("data/test/I")
     os.makedirs("data/test/J")
     os.makedirs("data/test/N")
-
 
 mode = 'test'
 directory = 'data/'+mode+'/'
@@ -74,7 +70,6 @@ while True:
          'I': len(os.listdir(directory+"/I")),
          'J': len(os.listdir(directory+"/J")),
          'N': len(os.listdir(directory+"/N"))
-         
         }
 
     # Printing the count in each set to the screen/frame
@@ -100,7 +95,6 @@ while True:
     cv2.putText(frame, "Null : "+str(count['N']), (10, 265), cv2.FONT_HERSHEY_PLAIN, 0.8, (255,0,0), 1)  
 
 
-    
     # Coordinates of the ROI on frame
     x1 = 400
     y1 = 100
@@ -108,10 +102,8 @@ while True:
     y2 = 320
     # Drawing the ROI on frame. The increment/decrement by 1 is to compensate for the bounding box
     cv2.rectangle(frame, (x1, y1), (x2, y2), (255,0,0) ,2)
-   
     
     cv2.imshow("Frame: Data Collection", frame)
-
 
     # Extracting the ROI
     roi = frame[y1:y2, x1:x2]
@@ -126,11 +118,8 @@ while True:
    
     _,thres = cv2.threshold(gaussian, 10, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     
-   
-   
     cv2.imshow("ROI", thres)
     #print(thres.shape)
-
     
     interrupt = cv2.waitKey(10)
     if interrupt & 0xFF == 27: # esc key
