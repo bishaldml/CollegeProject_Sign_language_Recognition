@@ -15,4 +15,5 @@ Run predict.py
 ```
 5. For UI
 ```
+Run streamlit.py
 ```
