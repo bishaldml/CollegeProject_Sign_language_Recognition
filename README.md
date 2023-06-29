@@ -5,3 +5,14 @@ college project
 ```
 Run collect_data.py
 ```
+2. CNN Training:
+```
+Run train.py
+```
+4. Sign Language Prediction
+```
+Run predict.py
+```
+5. For UI
+```
+```
